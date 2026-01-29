@@ -83,22 +83,22 @@ class ElasticQuantBinarizerSigned(torch.autograd.Function):
         if num_bits == 1:
             q_w = input.sign()+1
         else:
-            q_w = (input / alpha).round().clamp(Qn, Qp)
-            print('q_w?')
+            q_w = (input / alpha).round().clamp(Qn, Qp)+2
+            # print('q_w?')
         # print(q_w)
-        output_spike = create_spike_input_cuda(q_w, 1, 1)
+        output_spike = create_spike_input_cuda(q_w, 3, 3)
         sum_spike = torch.sum(output_spike)
         #total = output_spike.numel()
 
         #rate = torch.mean(output_spike)
-        # file_path = 'sum_spike.txt'
-        # with open(file_path, 'a') as f:
-        #     f.write(f'{sum_spike}\n')
+        file_path = 'sum_spike.txt'
+        with open(file_path, 'a') as f:
+            f.write(f'{sum_spike}\n')
 
-        # total = output_spike.numel()
-        # file_path = 'total_spike.txt'
-        # with open(file_path, 'a') as f:
-        #     f.write(f'{total}\n')
+        total = output_spike.numel()
+        file_path = 'total_spike.txt'
+        with open(file_path, 'a') as f:
+            f.write(f'{total}\n')
             
         # w_q = q_w * alpha
         # print(alpha)
@@ -172,20 +172,20 @@ class ElasticQuantBinarizerUnsigned(torch.autograd.Function):
         # w_q = q_w * alpha
         # w_q = w_q + min_val
 
-        output_spike = create_spike_input_cuda(q_w, 1, 1)
+        output_spike = create_spike_input_cuda(q_w, 3, 3)
         #print(output_spike)
         sum_spike = torch.sum(output_spike)
         #total = output_spike.numel()
 
         #rate = torch.mean(output_spike)
-        # file_path = 'sum_spike.txt'
-        # with open(file_path, 'a') as f:
-        #     f.write(f'{sum_spike}\n')
+        file_path = 'sum_spike.txt'
+        with open(file_path, 'a') as f:
+            f.write(f'{sum_spike}\n')
 
-        # total = output_spike.numel()
-        # file_path = 'total_spike.txt'
-        # with open(file_path, 'a') as f:
-        #     f.write(f'{total}\n')
+        total = output_spike.numel()
+        file_path = 'total_spike.txt'
+        with open(file_path, 'a') as f:
+            f.write(f'{total}\n')
 
         # w_q = q_w * alpha
         # # min_val = min_val/alpha
@@ -258,20 +258,20 @@ class ElasticQuantBinarizerUnsignedFifthLayer(torch.autograd.Function):
         # w_q = q_w * alpha
         # w_q = w_q + min_val
 
-        output_spike = create_spike_input_cuda(q_w, 1, 1*1*0.99)
+        output_spike = create_spike_input_cuda(q_w, 3, 3*0.99)
         #print(output_spike)
         sum_spike = torch.sum(output_spike)
         #total = output_spike.numel()
 
         #rate = torch.mean(output_spike)
-        # file_path = 'sum_spike.txt'
-        # with open(file_path, 'a') as f:
-        #     f.write(f'{sum_spike}\n')
+        file_path = 'sum_spike.txt'
+        with open(file_path, 'a') as f:
+            f.write(f'{sum_spike}\n')
 
-        # total = output_spike.numel()
-        # file_path = 'total_spike.txt'
-        # with open(file_path, 'a') as f:
-        #     f.write(f'{total}\n')
+        total = output_spike.numel()
+        file_path = 'total_spike.txt'
+        with open(file_path, 'a') as f:
+            f.write(f'{total}\n')
 
         # w_q = q_w * alpha
         # # min_val = min_val/alpha
@@ -680,4 +680,3 @@ class QuantizeEmbedding(nn.Embedding):
             self.norm_type, self.scale_grad_by_freq, self.sparse)
 
         return out
-
