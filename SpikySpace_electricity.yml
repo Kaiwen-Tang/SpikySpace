@@ -1,0 +1,49 @@
+_base_:
+- ../dataset/electricity.yml
+_custom_imports_:
+- SeqSNN.network
+- SeqSNN.dataset
+- SeqSNN.runner
+
+data:
+  raw_label: False
+  window: 168
+  horizon: 3
+  normalize: 3
+
+runner:
+  type: vsts
+  task: regression
+  optimizer: Adam
+  lr: 0.001
+  weight_decay: 0.0
+  loss_fn: mse
+  metrics: [r2, rrse]
+  observe: loss
+  batch_size: 320
+  out_size: 3
+  aggregate: False
+  early_stop: 20
+  denormalize: True
+  lower_is_better: True
+  max_epoches: 0 # 1000
+  valid_variates: 321
+
+network:
+  type: iSpikformer
+  dim: 321
+  d_ff: 1024
+  # depths: 2
+  num_steps: 4
+  # heads: 8
+  encoder_type: conv
+  input_size: 321     # C
+  max_length: 168     # L
+  # weight_bits: 8
+
+runtime:
+  seed: 42
+  # checkpoint_dir: ./output/elec/iSpikformer_horizon=24_1022_d32_e0.2_d3_lr3_sn6_sfpl_silu_ptsda
+  checkpoint_dir: ./output/elec-2bit/iSpikformer_horizon=3_1024_d32_e0.2_d3_lr3_sn6_sfpl_silu_ptsda
+  output_dir: ./output/elec-2bit/iSpikformer_horizon=3_0128_d32_e0.2_d3_lr3_sn6_sfpl_silu_ptsda_test
+  # output_dir: ./baselinemamba/elec/iSpikformer_horizon=24_0127
