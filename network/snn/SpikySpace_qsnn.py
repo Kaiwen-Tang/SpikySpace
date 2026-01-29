@@ -112,8 +112,8 @@ class TSModelArgs:
             self.dt_rank = math.ceil(self.d_model / 16)
             
 
-@NETWORKS.register_module("iSpikformer")
-class iSpikformer(nn.Module):
+@NETWORKS.register_module("SpikySpace")
+class SpikySpace(nn.Module):
     #def __init__(self, dim, d_model, T, dropout=0.0, **ssm_kwargs):
     def __init__(
         self,
